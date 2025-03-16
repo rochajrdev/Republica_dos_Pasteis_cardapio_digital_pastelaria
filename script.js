@@ -30,108 +30,196 @@ closeModalBtn.addEventListener("click", function(){
 })
 
 
-        // Adicionar no carrinho
+// Controle de quantidade
+document.querySelectorAll('.quantity-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const action = e.currentTarget.dataset.action;
+        const display = e.currentTarget.parentNode.querySelector('.quantity-display');
+        let quantity = parseInt(display.textContent);
+
+        if (action === 'increase') {
+            quantity = Math.min(quantity + 1, 10); // Limita a 10 itens
+        } else if (action === 'decrease') {
+            quantity = Math.max(quantity - 1, 1); // Não permite menos que 1
+        }
+
+        display.textContent = quantity;
+    });
+});
+
+// Modificar a função que adiciona ao carrinho para considerar a quantidade
+document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        // Encontrar o display de quantidade mais próximo
+        const quantityDisplay = button.parentNode.querySelector('.quantity-display');
+        const quantity = parseInt(quantityDisplay.textContent);
+        
+        const name = button.dataset.name;
+        const price = parseFloat(button.dataset.price);
+        const total = price * quantity;
+
+        // Adicionar ao carrinho com a quantidade selecionada
+        addToCart(name, price, quantity);
+
+        // Mostrar notificação
+        Toastify({
+            text: `${quantity}x ${name} adicionado ao carrinho!`,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+        }).showToast();
+    });
+});
+
+// Adicionar no carrinho
+/*
 menu.addEventListener("click", function(event){
-
     let parentButton = event.target.closest(".add-to-cart-btn")
-
     if(parentButton){
         const name = parentButton.getAttribute("data-name")
         const price = parseFloat(parentButton.getAttribute("data-price"))
         addToCart(name, price)
     }
-
 })
+*/
 
-// Função para adicionar no carrinho
-function addToCart(name, price){
-    const existingItem = cart.find(item => item.name === name)
-
-    if(existingItem){
-        //Se o item ja existe, aumenta apenas a quantidade + 1
-        existingItem.quantity += 1;
-
-    }else{
-
+// Função modificada para adicionar ao carrinho
+function addToCart(name, price, quantity = 1) {
+    // Inicialize cart como array global
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    const existingItem = cart.find(item => item.name === name);
+    
+    if (existingItem) {
+        existingItem.quantity += quantity;
+        existingItem.total = existingItem.quantity * existingItem.price;
+    } else {
         cart.push({
             name,
             price,
-            quantity: 1,
-        })
-
+            quantity,
+            total: price * quantity
+        });
     }
-
-    updateCartModal()
- 
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartModal();
 }
 
-// Atualiza o carrinho
-function updateCartModal(){
-    cartItemsContainer.innerHTML = "";
-    let total = 0;
+// Adicione esta função para atualizar o contador do carrinho
+function updateCartInfo() {
+    const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    cartCounter.innerText = cartCount;
+}
 
+// Atualizar a exibição do carrinho para mostrar quantidades
+function updateCartModal() {
+    cartItemsContainer.innerHTML = '';
+    let totalAmount = 0;
+    
     cart.forEach(item => {
-        const cartItemElement = document.createElement("div");
-        cartItemElement.classList.add("flex", "justify-between", "mb-4", "flex-col")
-
-        cartItemElement.innerHTML = `
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="font-medium">${item.name}</p>
-                    <p>Qtd: ${item.quantity}</p>
-                    <p class="font-medium mt-2">R$ ${item.price.toFixed(2)}</p>
+        const itemElement = document.createElement('div');
+        itemElement.className = 'flex items-center justify-between border-b border-gray-200 py-2';
+        itemElement.innerHTML = `
+            <div class="flex flex-col">
+                <p class="font-bold">${item.name}</p>
+                <div class="flex items-center gap-2 mt-1">
+                    <div class="flex items-center bg-gray-100 rounded">
+                        <button 
+                            class="px-2 py-1 text-orange-600 cart-quantity-btn" 
+                            data-action="decrease"
+                            data-name="${item.name}"
+                            aria-label="Diminuir quantidade">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <span class="px-3">${item.quantity}</span>
+                        <button 
+                            class="px-2 py-1 text-orange-600 cart-quantity-btn" 
+                            data-action="increase"
+                            data-name="${item.name}"
+                            aria-label="Aumentar quantidade">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm">R$ ${(item.price * item.quantity).toFixed(2)}</p>
                 </div>
-                  
-
-                <button class="remove-from-cart-btn" data-name="${item.name}">
-                    Remover
-                </button>
-
             </div>
-        `
-        total += item.price * item.quantity;
-
-        cartItemsContainer.appendChild(cartItemElement)
-    })
-
-    cartTotal.textContent = total.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-
+            <button class="remove-from-cart-btn text-red-500" data-name="${item.name}">
+                <i class="fa fa-trash"></i>
+            </button>
+        `;
+        cartItemsContainer.appendChild(itemElement);
+        totalAmount += item.price * item.quantity;
     });
-
-    cartCounter.innerHTML = cart.length;
-
+    
+    cartTotal.innerText = totalAmount.toFixed(2);
+    updateCartInfo();
 }
 
-// Função para remover o item do carrinho
-cartItemsContainer.addEventListener("click", function(event){
-    if(event.target.classList.contains("remove-from-cart-btn")){
-        const name = event.target.getAttribute("data-name")
-
-        removeItemCart(name);
-    }
-
-})
-
-function removeItemCart(name){
-    const index = cart.findIndex(item => item.name === name);
-
-    if(index !== -1){
-        const item = cart[index];
-
-        if(item.quantity > 1){
-            item.quantity -= 1;
+// Adicione este novo evento para controlar a quantidade no carrinho
+cartItemsContainer.addEventListener("click", function(event) {
+    const button = event.target.closest('.cart-quantity-btn');
+    if (button) {
+        const action = button.dataset.action;
+        const name = button.dataset.name;
+        const item = cart.find(item => item.name === name);
+        
+        if (item) {
+            if (action === 'increase') {
+                if (item.quantity < 10) {
+                    item.quantity++;
+                }
+            } else if (action === 'decrease') {
+                if (item.quantity > 1) {
+                    item.quantity--;
+                } else {
+                    // Se a quantidade chegar a 0, remove o item
+                    const index = cart.findIndex(cartItem => cartItem.name === name);
+                    if (index !== -1) {
+                        cart.splice(index, 1);
+                    }
+                }
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
             updateCartModal();
-            return;
         }
+    }
+});
 
+// Adicione este evento para o botão de remover item
+cartItemsContainer.addEventListener("click", function(event) {
+    // Verifica se clicou no botão de remover
+    const removeButton = event.target.closest('.remove-from-cart-btn');
+    if (removeButton) {
+        const name = removeButton.dataset.name;
+        removeItemCart(name);
+        
+        // Mostra notificação de item removido
+        Toastify({
+            text: `${name} removido do carrinho!`,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            style: {
+                background: "#ef4444",
+            }
+        }).showToast();
+    }
+});
+
+// Modifique a função removeItemCart para remover o item completamente
+function removeItemCart(name) {
+    const index = cart.findIndex(item => item.name === name);
+    if (index !== -1) {
         cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
         updateCartModal();
     }
-
 }
-
 
 addressInput.addEventListener("input", function(event){
     let inputValue = event.target.value;
