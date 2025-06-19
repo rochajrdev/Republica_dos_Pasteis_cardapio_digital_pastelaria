@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
     integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" 
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!--META TAG OG-->
     <meta property="og:type" content="website"/>
@@ -25,113 +28,253 @@
 
     <!-- Adicionar preload para recursos críticos -->
     <link rel="preload" href="./assets/avatar.png" as="image">
-    <link rel="preload" href="./styles/output.css" as="style">
-   
-    <link rel="stylesheet" href="./styles/output.css"/>    
-    <title>Rpública do Pastéis</title>
+    <link rel="preload" href="./styles/output.css" as="style">    <link rel="stylesheet" href="./styles/output.css"/>
+    <link rel="stylesheet" href="./styles/theme.css"/>
+    <title>República dos Pastéis</title>
 
 </head>
 
-<body>
-
-    <!-- HEADER -->
-    <header class="w-full h-[420px] bg-zinc-900 bg-home bg-cover bg-center">
-        <div class="w-full h-full flex flex-col justify-center items-center">
+<body class="transition-colors duration-300">
+    <a href="#menu" class="skip-link">Pular para o cardápio</a>    <!-- HEADER -->
+    <header class="w-full h-[420px] bg-zinc-900 dark:bg-zinc-800 bg-home bg-cover bg-center relative">
+        <nav class="absolute top-0 left-0 right-0 flex justify-end p-4">            <button 
+                id="cart-btn"
+                class="bg-orange-600 hover:bg-orange-700 transition-colors duration-200 rounded-full p-3 shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500 relative z-10 cursor-pointer"
+                aria-label="Ver carrinho de compras"
+                type="button"
+                role="button"
+                onclick="openCartModal(event)"
+            >
+                <i class="fa fa-shopping-cart text-white text-xl" aria-hidden="true"></i>
+                <span 
+                    id="cart-count" 
+                    class="absolute -top-1 -right-1 bg-white dark:bg-gray-800 text-orange-600 dark:text-orange-400 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold"
+                    aria-live="polite"
+                >0</span>
+            </button>
+        </nav>
+        
+        <div class="w-full h-full flex flex-col justify-center items-center animate-fade-in">
             <img
-            src="./assets/avatar.png"
-            alt="Logo Republica dos Pastéis"
-            class="w-32 h-32 rounded-full shadow-lg hover:scale-110 duration-200"
+                src="./assets/avatar.png"
+                alt="Logo República dos Pastéis"
+                class="w-32 h-32 rounded-full shadow-lg hover:scale-110 duration-200"
+                loading="eager"
             />
 
             <h1 class="text-4xl mt-4 mb-2 font-bold text-white">República dos Pastéis</h1>
 
             <a 
-            class="text-white font-medium" 
-            href="https://maps.app.goo.gl/EBC9Kow62HcokxGn6" 
-            target="_blank">
-            🏠: Av. Doutor José Thomas D'Avila Nabuco, 579
+                class="text-white font-medium hover:text-orange-300 transition-colors flex items-center gap-2" 
+                href="https://maps.app.goo.gl/EBC9Kow62HcokxGn6" 
+                target="_blank"
+                rel="noopener"
+                aria-label="Nosso endereço: Avenida Doutor José Thomas D'Avila Nabuco, 579. Abrir no Google Maps."
+            >
+                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                <span>Av. Doutor José Thomas D'Avila Nabuco, 579</span>
             </a>
             
-            <a class="text-white font-medium mt-2"
-            href="tel:+5579981575934" 
-            target="_blank">
-            📞: (79) 9 8157-5934</a>
+            <a 
+                class="text-white font-medium mt-2 hover:text-orange-300 transition-colors flex items-center gap-2"
+                href="tel:+5579981575934" 
+                target="_blank"
+                aria-label="Nosso telefone: 7-9 9 8-1-5-7 5-9-3-4"
+            >
+                <i class="fas fa-phone" aria-hidden="true"></i>
+                <span>(79) 9 8157-5934</span>
+            </a>
 
-            <div class="bg-green-600 px-4 py-1 rounded-lg mt-5" id="date-span">
-                
-                <span class="text-white font-medium"> Terça à Domingo - 16:00 às 22:00</span>
-
+            <div class="bg-green-600 hover:bg-green-700 transition-colors px-4 py-1 rounded-lg mt-5 shadow-md" id="date-span">
+                <span class="text-white font-medium flex items-center gap-2">
+                    <i class="fas fa-clock" aria-hidden="true"></i>
+                    <span>Terça à Domingo - 16:00 às 22:00</span>
+                </span>
             </div>
         </div>
     </header>
-    <!-- FIM HEADER -->
-
-    <!--CONHEÇA NOSSO CARDÁPIO-->
-    <div class="mx-auto max-w-7xl px-2 my-2 bg-orange-600  py-1 rounded-lg mt-2">
-
+    <!-- FIM HEADER -->    <!--CONHEÇA NOSSO CARDÁPIO-->
+    <div class="mx-auto max-w-7xl px-2 my-2 bg-orange-600 dark:bg-orange-700 py-1 rounded-lg mt-2 shadow-md">
         <h2 class="text-2xl md:text-2xl text-white font-bold text-center mt-1 mb-1">Conheça nosso cardápio</h2>
-
     </div>
-    <!--fIM DO CONHEÇA NOSSO CARDÁPIO-->
+    <!--FIM DO CONHEÇA NOSSO CARDÁPIO-->
 
+    <!-- MENU NAVIGATION TABS -->
+    <div class="mx-auto max-w-7xl px-2 mt-4 mb-6">
+        <nav class="flex flex-wrap justify-center gap-2 md:gap-4" role="tablist" aria-label="Categorias do cardápio">
+            <button 
+                id="tab-pasteis" 
+                class="category-tab px-4 py-2 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors active-tab"
+                role="tab"
+                aria-selected="true"
+                aria-controls="section-pasteis"
+                data-target="section-pasteis"
+            >
+                <i class="fas fa-utensils mr-2" aria-hidden="true"></i>Pastéis
+            </button>
+            
+            <button 
+                id="tab-especiais" 
+                class="category-tab px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                role="tab"
+                aria-selected="false"
+                aria-controls="section-especiais"
+                data-target="section-especiais"
+            >
+                <i class="fas fa-star mr-2" aria-hidden="true"></i>Especiais
+            </button>
+            
+            <button 
+                id="tab-doces" 
+                class="category-tab px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                role="tab"
+                aria-selected="false" 
+                aria-controls="section-doces"
+                data-target="section-doces"
+            >
+                <i class="fas fa-cookie mr-2" aria-hidden="true"></i>Doces
+            </button>
+            
+            <button 
+                id="tab-bebidas" 
+                class="category-tab px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 rounded-lg font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                role="tab"
+                aria-selected="false"
+                aria-controls="section-bebidas"
+                data-target="section-bebidas"
+            >
+                <i class="fas fa-glass-cheers mr-2" aria-hidden="true"></i>Bebidas
+            </button>
+        </nav>
+    </div>    <!-- MODAL CARRINHO -->
+    <div id="cart-modal" class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden backdrop-blur-sm">
+        <div class="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg max-w-md w-full mx-4 max-h-[90vh] flex flex-col animate-slide-up shadow-2xl border border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-shopping-cart text-orange-500 mr-2"></i>
+                    <span>Seu Carrinho</span>
+                </h3>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="Fechar carrinho">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="cart-items" class="overflow-y-auto flex-grow mb-4 scroll-smooth" style="scrollbar-width: thin; scrollbar-color: #f97316 #e5e7eb;">
+                <!-- Items do carrinho serão adicionados aqui -->
+            </div>
+              <div class="border-t border-gray-300 dark:border-gray-600 pt-4">
+                <div class="flex justify-between mb-4 bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
+                    <span class="font-bold text-lg text-gray-800 dark:text-gray-200">Total:</span>
+                    <span class="font-bold text-lg text-orange-600 dark:text-orange-400">R$ <span id="cart-total">0.00</span></span>
+                </div>
+                
+                <div class="mb-4">                    <label for="address" class="flex items-center mb-2 font-medium">
+                        <i class="fas fa-map-marker-alt text-orange-500 mr-2"></i>
+                        Endereço de entrega:
+                    </label>
+                    <textarea 
+                        id="address" 
+                        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        placeholder="Digite seu endereço completo para entrega"
+                        rows="2"
+                        aria-required="true"
+                    ></textarea>
+                    <p id="address-warn" class="text-red-500 hidden mt-1 text-sm">
+                        <i class="fas fa-exclamation-circle mr-1"></i>
+                        Por favor, informe seu endereço
+                    </p>
+                </div>
+                
+                <div class="mb-6">
+                    <label for="payment-method" class="flex items-center mb-2 font-medium">
+                        <i class="fas fa-credit-card text-orange-500 mr-2"></i>
+                        Forma de pagamento:
+                    </label>
+                    <select 
+                        id="payment-method" 
+                        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                        aria-required="true"
+                    >
+                        <option value="">Selecione a forma de pagamento</option>
+                        <option value="money">Dinheiro</option>
+                        <option value="card">Cartão (na entrega)</option>
+                        <option value="pix">PIX</option>
+                    </select>
+                    <p id="payment-warn" class="text-red-500 hidden mt-1 text-sm">
+                        <i class="fas fa-exclamation-circle mr-1"></i>
+                        Por favor, selecione a forma de pagamento
+                    </p>
+                </div>
+                
+                <button 
+                    id="checkout-btn" 
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg w-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md hover:shadow-lg flex items-center justify-center"
+                    aria-label="Finalizar pedido"
+                >
+                    <i class="fas fa-check mr-2" aria-hidden="true"></i>
+                    Finalizar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!--INICIO CARDÁPIO-->
-    <div class="mt-6" id="menu">
+    <div class="mt-2" id="menu" aria-label="Cardápio">
 
         <!--INÌCIO - Pasteis normais-->
         <main class="grid grid-cols-1 md:grid-cols-2 gap-7 md:gap-10 mx-auto max-w-7xl px-2 mb-16">
 
-        <!-- Pastel de vento -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!-- Pastel de vento -->        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de vento tradicional" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Pastel de vento</p>
+                <h3 class="font-bold text-lg">Pastel de vento</h3>
                 <p class="text-sm">Massa crocante tradicional</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 7.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 7 reais">R$ 7.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Pastel de vento"
-                                data-price="7.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                                data-price="7.00"
+                                aria-label="Adicionar Pastel de vento ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--FIM Pastel de vento -->
-
-        <!-- Carne -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Pastel de vento -->        <!-- Carne -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de carne" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Carne</p>
+                <h3 class="font-bold text-lg">Carne</h3>
                 <p class="text-sm">Pastel recheado com carne moída temperada</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 9.00</p>
-                    <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                    <p class="font-bold text-lg">R$ 9.00</p>                    <div class="flex items-center gap-2">
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Carne"
-                                data-price="9.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                                data-price="9.00"
+                                aria-label="Adicionar Carne ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
@@ -1903,59 +2046,41 @@
         </div>
         <!--FIM - Grid Bebidas-->
 
-    </div>
-    <!-- FIM CARDÁPIO -->
-
-    <!-- INÍCIO MODAL CART -->
-
-    <div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99] items-center justify-center hidden"
-         id="cart-modal"
-    >
-
-        <div class="bg-white p-5 rounded-md min-w-[90%] md:min-w-[600px]">
-
-            <h2 class="text-center font-bold text-3xl mb-2">Meu pedido</h2>
-
-            <div id="cart-items" class="flex justify-between mb-2 flex-col max-h-64 overflow-y-auto"> </div>
-
-            <p class="font-bold">Total: <span id="cart-total">0.00</span></p>
-
-            <p class="font-bold mt-4">Nome para retirada</p>
-
-            <input 
-                type="text"
-                placeholder="Dgite seu nome..."
-                id="address"
-                class="w-full border-2 p-1 rounded my-1"/>
-            
-            <p class="text-red-500 hidden" id="address-warn">Digite seu nome!</p>
-
-            <div class="flex items-center justify-between mt-5 w-full">
-                <button id="close-modal-btn"class="bg-red-500 text-white px-4 py-1 rounded">Fechar</button>
-                <button id="checkout-btn" class="bg-green-500 text-white px-4 py-1 rounded">
-                    Finalizar pedido</button>
-            </div>
-                
-        </div>
-
-    </div>
-
-    <!-- FIM MODAL CART -->
-
-    <!-- BUTTON CART FOOTER -->
-    <footer class="w-full bg-red-600 py-2 fixed bottom-0 z-40 flex items-center justify-center">
-        <button 
-            class="flex items-center gap-2 text-white font-bold "
-            id="cart-btn"
-        >
-            (<span id="cart-count">0</span>)
-            Meu pedido
-            <i class="fa fa-cart-plus text-lg text-white"></i>
-        </button>
-    </footer>
-    <!-- FIM BUTTON CART FOOTER -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    </div>    <!-- FIM CARDÁPIO --><!-- Removido botão duplicado do carrinho -->    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="script.js"></script>
+    <script src="theme.js"></script>
+    <script src="menu-fix.js"></script>
+    <script src="dark-mode-fix.js"></script>
 
+    <!-- Script para navegação por tabs -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.category-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => {
+                        t.classList.remove('active-tab', 'bg-orange-600', 'text-white');
+                        t.classList.add('bg-gray-200', 'text-gray-800', 'dark:bg-gray-700', 'dark:text-gray-200');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.remove('bg-gray-200', 'text-gray-800', 'dark:bg-gray-700', 'dark:text-gray-200');
+                    this.classList.add('active-tab', 'bg-orange-600', 'text-white');
+                    this.setAttribute('aria-selected', 'true');
+                    
+                    // Announce for screen readers
+                    const announcement = document.createElement('div');
+                    announcement.setAttribute('aria-live', 'polite');
+                    announcement.classList.add('sr-only');
+                    announcement.textContent = `Categoria ${this.textContent} selecionada`;
+                    document.body.appendChild(announcement);
+                    setTimeout(() => document.body.removeChild(announcement), 1000);
+                });
+            });
+        });
+    </script>
 </body> 
 </html>

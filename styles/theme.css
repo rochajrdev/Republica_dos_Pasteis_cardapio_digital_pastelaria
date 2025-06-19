@@ -1,0 +1,255 @@
+/* Theme Switching */
+:root {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-text-primary: #1f2937;
+  --color-text-secondary: #4b5563;
+  --color-accent: #f97316;
+  --color-card-bg: #ffffff;
+  --color-card-border: #e5e7eb;
+  --color-input-bg: #f9fafb;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1f2937;
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-accent: #f97316;
+  --color-card-bg: #1f2937;
+  --color-card-border: #374151;
+  --color-input-bg: #374151;
+  --color-shadow: rgba(0, 0, 0, 0.25);
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.menu-item {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 4px 6px var(--color-shadow);
+  transition: all 0.3s ease;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  animation: fadeIn 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.menu-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px var(--color-shadow);
+}
+
+.menu-item img {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 0.375rem;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px var(--color-shadow);
+}
+
+.menu-item img:hover {
+  transform: scale(1.1);
+}
+
+.menu-item h3 {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.menu-item p.text-sm {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+}
+
+.menu-item .quantity-btn {
+  color: var(--color-accent);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.menu-item .quantity-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.dark .menu-item .quantity-btn:hover {
+  background-color: #374151;
+}
+
+.menu-item .add-to-cart-btn {
+  background-color: var(--color-accent);
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem;
+  color: white;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.menu-item .add-to-cart-btn:hover {
+  background-color: #ea580c;
+  transform: translateY(-2px);
+}
+
+.menu-item .add-to-cart-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fed7aa;
+}
+
+/* Animação para os itens do menu */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Skip Link for Keyboard Navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-accent);
+  color: white;
+  padding: 8px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus styles for better accessibility */
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* HIGH CONTRAST MODE */
+@media screen and (prefers-contrast: high) {
+  :root, .dark {
+    --color-text-primary: #000000;
+    --color-bg-primary: #ffffff;
+    --color-accent: #000000;
+    --color-card-border: #000000;
+  }
+  
+  a, button {
+    text-decoration: underline;
+  }
+}
+
+/* Reduces motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Estilos específicos para categorias de itens */
+#pasteis-normais .menu-item {
+  border-left: 3px solid var(--color-accent);
+}
+
+#pasteis-especiais .menu-item {
+  border-left: 3px solid #8B5CF6; /* Purple */
+}
+
+#pasteis-doces .menu-item {
+  border-left: 3px solid #EC4899; /* Pink */
+}
+
+#bebidas .menu-item {
+  border-left: 3px solid #3B82F6; /* Blue */
+}
+
+/* Indicadores visuais de categorias */
+#pasteis-normais .menu-item::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  z-index: 1;
+}
+
+#pasteis-especiais .menu-item::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #8B5CF6;
+  z-index: 1;
+}
+
+#pasteis-doces .menu-item::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #EC4899;
+  z-index: 1;
+}
+
+#bebidas .menu-item::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #3B82F6;
+  z-index: 1;
+}
+
+/* Garantir que os itens do menu tenham posição relativa para o posicionamento absoluto */
+.menu-item {
+  position: relative;
+}
+
+/* Estilos específicos para controles de quantidade no tema escuro */
+.dark .flex.items-center.bg-gray-100 {
+  background-color: var(--color-input-bg) !important;
+}
+
+.dark .quantity-btn, 
+.dark button[data-action="decrease"], 
+.dark button[data-action="increase"] {
+  color: var(--color-accent) !important;
+}
+
+.dark .quantity-btn:hover {
+  background-color: rgba(55, 65, 81, 0.7) !important; /* Equivalente ao dark:hover:bg-gray-600 */
+}
+
+/* Garantir que os ícones nos botões de quantidade sejam visíveis no tema escuro */
+.dark .quantity-btn i {
+  color: var(--color-accent) !important;
+}
