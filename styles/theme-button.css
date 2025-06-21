@@ -1,0 +1,59 @@
+/**
+ * theme-button.css
+ * Estilo para o botão redondo de alternar tema
+ */
+
+/* Estilo do botão de tema */
+#theme-toggle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #f97316; /* Laranja (tema principal) */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 10;
+}
+
+/* Efeito hover */
+#theme-toggle:hover {
+  background-color: #ea580c; /* Laranja mais escuro no hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Efeito de clique */
+#theme-toggle:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo do foco para acessibilidade */
+#theme-toggle:focus-visible {
+  outline: 2px solid #f8fafc;
+  outline-offset: 2px;
+}
+
+/* Estilo do ícone */
+#theme-toggle i {
+  font-size: 18px;
+  color: white; /* Ícone sempre branco */
+}
+
+/* Adaptação para dispositivos móveis */
+@media (max-width: 640px) {
+  #theme-toggle {
+    width: 38px;
+    height: 38px;
+  }
+  
+  #theme-toggle i {
+    font-size: 16px;
+  }
+}

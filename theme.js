@@ -1,16 +1,9 @@
 // Theme toggle functionality
 function setupThemeToggle() {
-    // Create theme toggle button
+    // Create theme toggle button - usando CSS externo para estilização
     const themeToggle = document.createElement('button');
     themeToggle.id = 'theme-toggle';
-    themeToggle.classList.add(
-        'bg-orange-600', 'hover:bg-orange-700', 'active:bg-orange-800', 
-        'transition-colors', 'duration-200', 'rounded-full', 
-        'p-3', 'shadow-lg', 'hover:shadow-xl',
-        'focus:outline-none', 'focus:ring-2', 'focus:ring-orange-500', 
-        'focus:ring-offset-2', 'relative', 'z-10',
-        'cursor-pointer', 'transform', 'hover:scale-105', 'active:scale-95'
-    );
+    // Removendo classes Tailwind pois agora usamos CSS personalizado
     themeToggle.setAttribute('aria-label', 'Alternar tema claro/escuro');
     
     // Set initial icon based on current theme
