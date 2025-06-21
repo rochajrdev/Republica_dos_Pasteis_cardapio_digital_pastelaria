@@ -1,0 +1,99 @@
+/**
+ * mobile-fixes.css
+ * Correções específicas para melhorar a experiência em dispositivos móveis
+ */
+
+/* Ajustes gerais para melhor responsividade */
+@media screen and (max-width: 768px) {
+  /* Ajusta o tamanho do modal para dispositivos móveis */
+  #cart-modal .bg-white {
+    max-height: 90vh;
+    margin: 5vh auto;
+  }
+
+  /* Melhora o scroll em dispositivos móveis */
+  .cart-scrollable-content {
+    -webkit-overflow-scrolling: touch; /* Para melhorar a rolagem suave no iOS */
+    max-height: calc(70vh - 170px) !important; /* Reduz a altura reservada para outros elementos */
+    padding-bottom: 20px; /* Garante espaço no final para o conteúdo ser visualizado */
+  }
+
+  /* Garante que o resumo seja visível e tenha menos padding em dispositivos menores */
+  .cart-total-summary {
+    position: sticky; /* Mantém sticky para garantir visibilidade */
+    padding: 8px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    z-index: 5;
+  }
+
+  /* Diminui o padding dos botões de navegação para economizar espaço */
+  .cart-nav-buttons {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    margin-top: 0;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    background-color: white; /* Garante que o fundo seja consistente */
+  }
+  
+  .dark .cart-nav-buttons {
+    background-color: #1f2937; /* Versão escura */
+  }
+
+  /* Diminui o tamanho do texto em elementos menores para economizar espaço */
+  .cart-item-name {
+    font-size: 0.95rem;
+  }
+  
+  .cart-item-price, 
+  .cart-quantity-display {
+    font-size: 0.9rem;
+  }
+  
+  /* Correção específica para o problema de visibilidade do resumo do total */
+  #checkout-step-1 .cart-scrollable-content {
+    padding-bottom: 30px;
+    margin-bottom: 15px;
+  }
+  
+  /* Espaço extra no final do conteúdo para garantir que o total seja visível */
+  #order-summary-container {
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+  }
+  
+  /* Ajusta a altura do modal do carrinho para dispositivos muito pequenos */
+  @media screen and (max-height: 600px) {
+    #cart-modal .bg-white {
+      max-height: 95vh;
+      margin: 2.5vh auto;
+    }
+    
+    .cart-scrollable-content {
+      max-height: calc(75vh - 150px) !important;
+    }
+    
+    /* Reduz o padding/margens em telas muito pequenas */
+    .checkout-step-content {
+      padding-top: 5px;
+    }
+    
+    .cart-nav-buttons {
+      padding-top: 5px;
+    }
+  }
+  
+  /* Ajuste para a etapa de pagamento */
+  #checkout-step-4 .cart-scrollable-content {
+    max-height: calc(70vh - 200px) !important;
+    padding-bottom: 50px;
+  }
+  
+  /* Ajuste para a tabela de detalhes na etapa final */
+  .order-items-container {
+    max-height: 30vh !important;
+  }
+}
