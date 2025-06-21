@@ -30,28 +30,18 @@
     <link rel="preload" href="./assets/avatar.png" as="image">
     <link rel="preload" href="./styles/output.css" as="style">    <link rel="stylesheet" href="./styles/output.css"/>
     <link rel="stylesheet" href="./styles/theme.css"/>
-    <title>República dos Pastéis</title>
-
+    <link rel="stylesheet" href="./styles/cart.css"/>
+    <link rel="stylesheet" href="./styles/payment-summary.css"/><title>República dos Pastéis</title>      <!-- Scripts para o carrinho -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>    <script defer src="./cart-system.js"></script>
+    <script defer src="./cart-backup.js"></script>
+    <script defer src="./final-summary-fix.js"></script>
+    <script defer src="./payment-button-fix.js"></script>
 </head>
 
 <body class="transition-colors duration-300">
     <a href="#menu" class="skip-link">Pular para o cardápio</a>    <!-- HEADER -->
-    <header class="w-full h-[420px] bg-zinc-900 dark:bg-zinc-800 bg-home bg-cover bg-center relative">
-        <nav class="absolute top-0 left-0 right-0 flex justify-end p-4">            <button 
-                id="cart-btn"
-                class="bg-orange-600 hover:bg-orange-700 transition-colors duration-200 rounded-full p-3 shadow-lg focus:outline-none focus:ring-2 focus:ring-orange-500 relative z-10 cursor-pointer"
-                aria-label="Ver carrinho de compras"
-                type="button"
-                role="button"
-                onclick="openCartModal(event)"
-            >
-                <i class="fa fa-shopping-cart text-white text-xl" aria-hidden="true"></i>
-                <span 
-                    id="cart-count" 
-                    class="absolute -top-1 -right-1 bg-white dark:bg-gray-800 text-orange-600 dark:text-orange-400 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold"
-                    aria-live="polite"
-                >0</span>
-            </button>
+    <header class="w-full h-[420px] bg-zinc-900 dark:bg-zinc-800 bg-home bg-cover bg-center relative">        <nav class="absolute top-0 left-0 right-0 flex justify-end p-4">
+            <!-- O botão do tema será inserido aqui pelo theme.js -->
         </nav>
         
         <div class="w-full h-full flex flex-col justify-center items-center animate-fade-in">
@@ -146,74 +136,331 @@
                 <i class="fas fa-glass-cheers mr-2" aria-hidden="true"></i>Bebidas
             </button>
         </nav>
-    </div>    <!-- MODAL CARRINHO -->
-    <div id="cart-modal" class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden backdrop-blur-sm">
-        <div class="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg max-w-md w-full mx-4 max-h-[90vh] flex flex-col animate-slide-up shadow-2xl border border-gray-200 dark:border-gray-700">
+    </div>    <!-- MODAL CARRINHO -->    <div id="cart-modal" class="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden backdrop-blur-sm" role="dialog" aria-labelledby="cart-title" aria-modal="true">
+        <div class="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg max-w-lg w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col animate-slide-up shadow-2xl border border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-bold flex items-center">
-                    <i class="fas fa-shopping-cart text-orange-500 mr-2"></i>
+                <h3 id="cart-title" class="text-xl font-bold flex items-center">
+                    <i class="fas fa-shopping-cart text-orange-500 mr-2" aria-hidden="true"></i>
                     <span>Seu Carrinho</span>
                 </h3>
-                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="Fechar carrinho">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-            
-            <div id="cart-items" class="overflow-y-auto flex-grow mb-4 scroll-smooth" style="scrollbar-width: thin; scrollbar-color: #f97316 #e5e7eb;">
-                <!-- Items do carrinho serão adicionados aqui -->
-            </div>
-              <div class="border-t border-gray-300 dark:border-gray-600 pt-4">
-                <div class="flex justify-between mb-4 bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
-                    <span class="font-bold text-lg text-gray-800 dark:text-gray-200">Total:</span>
-                    <span class="font-bold text-lg text-orange-600 dark:text-orange-400">R$ <span id="cart-total">0.00</span></span>
-                </div>
-                
-                <div class="mb-4">                    <label for="address" class="flex items-center mb-2 font-medium">
-                        <i class="fas fa-map-marker-alt text-orange-500 mr-2"></i>
-                        Endereço de entrega:
-                    </label>
-                    <textarea 
-                        id="address" 
-                        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                        placeholder="Digite seu endereço completo para entrega"
-                        rows="2"
-                        aria-required="true"
-                    ></textarea>
-                    <p id="address-warn" class="text-red-500 hidden mt-1 text-sm">
-                        <i class="fas fa-exclamation-circle mr-1"></i>
-                        Por favor, informe seu endereço
-                    </p>
-                </div>
-                
-                <div class="mb-6">
-                    <label for="payment-method" class="flex items-center mb-2 font-medium">
-                        <i class="fas fa-credit-card text-orange-500 mr-2"></i>
-                        Forma de pagamento:
-                    </label>
-                    <select 
-                        id="payment-method" 
-                        class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                        aria-required="true"
-                    >
-                        <option value="">Selecione a forma de pagamento</option>
-                        <option value="money">Dinheiro</option>
-                        <option value="card">Cartão (na entrega)</option>
-                        <option value="pix">PIX</option>
-                    </select>
-                    <p id="payment-warn" class="text-red-500 hidden mt-1 text-sm">
-                        <i class="fas fa-exclamation-circle mr-1"></i>
-                        Por favor, selecione a forma de pagamento
-                    </p>
-                </div>
-                
                 <button 
-                    id="checkout-btn" 
-                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg w-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md hover:shadow-lg flex items-center justify-center"
-                    aria-label="Finalizar pedido"
+                    id="close-modal-btn" 
+                    class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500" 
+                    aria-label="Fechar carrinho"
                 >
-                    <i class="fas fa-check mr-2" aria-hidden="true"></i>
-                    Finalizar Pedido
+                    <i class="fas fa-times text-xl" aria-hidden="true"></i>
                 </button>
+            </div>
+              <!-- Indicador de passos do checkout -->
+            <div class="checkout-steps flex justify-between items-center mb-4 px-2">
+                <div class="checkout-step active" data-step="1">
+                    <div class="step-circle bg-orange-500 text-white">1</div>
+                    <span class="step-text">Resumo</span>
+                </div>
+                <div class="checkout-step-line"></div>
+                <div class="checkout-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <span class="step-text">Recebimento</span>
+                </div>
+                <div class="checkout-step-line"></div>
+                <div class="checkout-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <span class="step-text">Endereço</span>
+                </div>
+                <div class="checkout-step-line"></div>
+                <div class="checkout-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <span class="step-text">Pagamento</span>
+                </div>            </div>            <!-- Etapa 1: Carrinho -->
+            <div id="checkout-step-1" class="checkout-step-content active">
+                <div class="step-description mb-2">
+                    <p>Confira os itens do seu pedido abaixo.</p>
+                </div>
+                
+                <!-- Conteúdo com scroll -->
+                <div class="cart-scrollable-content">
+                    <div 
+                        id="cart-items" 
+                        class="mb-4 scroll-smooth" 
+                        aria-live="polite"
+                        aria-relevant="additions removals"
+                    >
+                        <!-- Items do carrinho serão adicionados aqui -->
+                    </div>
+                      <!-- Total do pedido -->
+                    <div id="order-summary-container" class="mb-2">
+                        <!-- Conteúdo gerado pela função generateOrderSummary() -->
+                    </div>
+                </div>
+                
+                <!-- Botões de navegação fixos -->
+                <div class="cart-nav-buttons">
+                    <div class="flex justify-end">
+                        <button 
+                            id="step-1-next" 
+                            class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-md hover:shadow-lg flex items-center justify-center"
+                            aria-label="Continuar para entrega/retirada"
+                        >
+                            <span>Continuar</span>
+                            <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div><!-- Etapa 2: Método de Recebimento -->
+            <div id="checkout-step-2" class="checkout-step-content hidden">
+                <div class="step-description mb-2">
+                    <p>Escolha como deseja receber seu pedido.</p>
+                </div>
+                
+                <!-- Conteúdo com scroll -->
+                <div class="cart-scrollable-content">
+                    <div class="mb-4">
+                        <h4 class="text-lg font-medium mb-4 flex items-center text-gray-800 dark:text-gray-200">
+                            <i class="fas fa-shipping-fast text-orange-500 mr-2"></i>
+                            Como deseja receber seu pedido?
+                        </h4>
+                        
+                        <div class="flex flex-col gap-4">
+                            <div class="delivery-option border rounded-lg p-4 cursor-pointer hover:border-orange-500 transition-colors">
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="radio" name="delivery-option" value="delivery" class="mt-1" checked>
+                                    <div>
+                                        <p class="font-medium text-gray-800 dark:text-gray-200">Entrega em casa</p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Receba seu pedido no endereço informado</p>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div class="delivery-option border rounded-lg p-4 cursor-pointer hover:border-orange-500 transition-colors">
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="radio" name="delivery-option" value="pickup" class="mt-1">
+                                    <div>
+                                        <p class="font-medium text-gray-800 dark:text-gray-200">Retirar na loja</p>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Buscar no local: Av. Doutor José Thomas D'Avila Nabuco, 579</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botões de navegação fixos -->
+                <div class="cart-nav-buttons">
+                    <div class="flex justify-between">
+                        <button 
+                            id="step-2-prev" 
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 shadow-md hover:shadow-lg flex items-center justify-center"
+                        >
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>
+                            <span>Voltar</span>
+                        </button>
+                        <button 
+                            id="step-2-next" 
+                            class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-md hover:shadow-lg flex items-center justify-center"
+                        >
+                            <span>Continuar</span>
+                            <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>            <!-- Etapa de Identificação para Retirada na Loja -->
+            <div id="checkout-step-pickup" class="checkout-step-content hidden">
+                <div class="step-description mb-2">
+                    <p>Por favor, informe seus dados para identificação na retirada.</p>
+                </div>
+                
+                <!-- Conteúdo com scroll -->
+                <div class="cart-scrollable-content">
+                    <div class="pickup-form">
+                        <h4 class="text-lg font-medium mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                            <i class="fas fa-user text-orange-500 mr-2"></i>
+                            Identificação do Cliente
+                        </h4>
+                        
+                        <div class="form-group">
+                            <label for="pickup-name">
+                                Nome completo
+                                <span class="required-mark">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="pickup-name" 
+                                class="form-input dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600"
+                                placeholder="Digite seu nome completo"
+                                required
+                                aria-required="true"
+                            >
+                            <div id="pickup-name-error" class="error-message">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                Nome completo é obrigatório
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickup-phone">
+                                Telefone para contato
+                                <span class="required-mark">*</span>
+                            </label>
+                            <input 
+                                type="tel" 
+                                id="pickup-phone" 
+                                class="form-input dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600"
+                                placeholder="(XX) XXXXX-XXXX"
+                                required
+                                aria-required="true"
+                            >
+                            <div id="pickup-phone-error" class="error-message">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                Telefone para contato é obrigatório
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickup-notes">
+                                Observações (opcional)
+                            </label>
+                            <textarea 
+                                id="pickup-notes" 
+                                class="form-input dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600"
+                                placeholder="Informações adicionais para seu pedido"
+                                rows="2"
+                                aria-required="false"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botões de navegação fixos -->
+                <div class="cart-nav-buttons">
+                    <div class="flex justify-between">
+                        <button 
+                            id="step-pickup-prev" 
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 shadow-md hover:shadow-lg flex items-center justify-center"
+                        >
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>
+                            <span>Voltar</span>
+                        </button>
+                        <button 
+                            id="step-pickup-next" 
+                            class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-md hover:shadow-lg flex items-center justify-center"
+                        >
+                            <span>Continuar</span>
+                            <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Etapa 3: Endereço de Entrega (condicional) -->
+            <div id="checkout-step-3" class="checkout-step-content hidden">
+                <div class="step-description mb-2">
+                    <p>Informe seu endereço completo para entrega.</p>
+                </div>
+                
+                <!-- Conteúdo com scroll -->
+                <div class="cart-scrollable-content">
+                    <div class="mb-4">
+                        <h4 class="text-lg font-medium mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                            <i class="fas fa-map-marker-alt text-orange-500 mr-2"></i>
+                            Endereço de entrega
+                        </h4>
+                        
+                        <div class="mb-4">
+                            <textarea 
+                                id="address" 
+                                class="cart-input w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                                placeholder="Ex: Rua das Flores, 123, Apto 101, Bairro Jardim - Próximo à Farmácia"
+                                rows="2"
+                                aria-required="true"
+                            ></textarea>
+                            <p id="address-warn" class="text-red-500 hidden mt-1 text-sm">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                Por favor, informe seu endereço
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botões de navegação fixos -->
+                <div class="cart-nav-buttons">
+                    <div class="flex justify-between">
+                        <button 
+                            id="step-3-prev" 
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 shadow-md hover:shadow-lg flex items-center justify-center"
+                        >
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>
+                            <span>Voltar</span>
+                        </button>
+                        <button 
+                            id="step-3-next" 
+                            class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-md hover:shadow-lg flex items-center justify-center"
+                        >
+                            <span>Continuar</span>
+                            <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>            <!-- Etapa 4: Forma de Pagamento -->
+            <div id="checkout-step-4" class="checkout-step-content hidden">
+                <div class="step-description mb-2">
+                    <p>Selecione a forma de pagamento para finalizar seu pedido.</p>
+                </div>
+                
+                <!-- Conteúdo com scroll -->
+                <div class="cart-scrollable-content">
+                    <div class="mb-4">
+                        <h4 class="text-lg font-medium mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                            <i class="fas fa-credit-card text-orange-500 mr-2"></i>
+                            Forma de pagamento
+                        </h4>
+                        
+                        <div class="mb-4">
+                            <select 
+                                id="payment-method" 
+                                class="cart-input w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                                aria-required="true"
+                            >
+                                <option value="">Selecione a forma de pagamento</option>
+                                <option value="money">Dinheiro</option>
+                                <option value="card">Cartão (na entrega)</option>
+                                <option value="pix">PIX</option>
+                            </select>
+                            <p id="payment-warn" class="text-red-500 hidden mt-1 text-sm">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                Por favor, selecione a forma de pagamento
+                            </p>
+                        </div>
+                        
+                        <!-- Resumo final do pedido -->
+                        <div class="border-t border-gray-300 dark:border-gray-600 pt-3 mt-4">
+                            <p class="font-medium text-gray-700 dark:text-gray-300 mb-2">Resumo final:</p>
+                            <div id="final-order-summary" class="text-sm text-gray-600 dark:text-gray-400">
+                                <!-- Será preenchido via JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botões de navegação fixos -->
+                <div class="cart-nav-buttons">
+                    <div class="flex justify-between">
+                        <button 
+                            id="step-4-prev" 
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 shadow-md hover:shadow-lg flex items-center justify-center"
+                        >
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>
+                            <span>Voltar</span>
+                        </button>
+                        <button 
+                            id="checkout-btn" 
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 shadow-md hover:shadow-lg flex items-center justify-center"
+                            aria-label="Finalizar pedido"
+                        >
+                            <i class="fas fa-check mr-2" aria-hidden="true"></i>
+                            Finalizar Pedido
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2047,7 +2294,7 @@
         <!--FIM - Grid Bebidas-->
 
     </div>    <!-- FIM CARDÁPIO --><!-- Removido botão duplicado do carrinho -->    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="script.js"></script>
+    <!-- Sistema de carrinho moderno do cart-system.js já está ativo -->
     <script src="theme.js"></script>
     <script src="menu-fix.js"></script>
     <script src="dark-mode-fix.js"></script>

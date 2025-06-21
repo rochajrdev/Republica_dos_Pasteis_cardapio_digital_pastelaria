@@ -1,0 +1,79 @@
+/**
+ * payment-summary.css
+ * Estilos específicos para a tabela detalhada na etapa de pagamento
+ */
+
+/* Estilos específicos para a tabela na etapa de pagamento */
+.step-3 .order-items-container {
+  max-height: 40vh !important; /* Aumentar altura da tabela na etapa final */
+  overflow-y: auto;
+}
+
+.step-3 .order-items-container table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.step-3 .order-items-container thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.step-3 .order-items-container tbody tr:hover {
+  background-color: rgba(249, 115, 22, 0.05);
+}
+
+.dark .step-3 .order-items-container tbody tr:hover {
+  background-color: rgba(249, 115, 22, 0.1);
+}
+
+/* Ajustes para o resumo na etapa de pagamento */
+#final-order-summary {
+  margin-bottom: 1.5rem;
+}
+
+/* Botões de navegação na etapa final */
+.step-3 .cart-nav-buttons {
+  margin-top: 1rem;
+  padding: 1rem 0;
+  position: sticky;
+  bottom: 0;
+  background: white;
+  z-index: 10;
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid rgba(229, 231, 235, 0.8);
+}
+
+.dark .step-3 .cart-nav-buttons {
+  background: #1f2937;
+  border-top: 1px solid rgba(55, 65, 81, 0.8);
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão de finalizar pedido */
+#finish-order-btn {
+  transition: all 0.2s ease-in-out;
+}
+
+#finish-order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.4);
+}
+
+/* Animações suaves */
+.step-3 #final-order-summary {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

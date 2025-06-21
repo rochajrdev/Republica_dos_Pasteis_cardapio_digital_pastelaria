@@ -4,13 +4,12 @@ function setupThemeToggle() {
     const themeToggle = document.createElement('button');
     themeToggle.id = 'theme-toggle';
     themeToggle.classList.add(
-        'fixed', 'bottom-4', 'right-4', 'z-50',
-        'w-12', 'h-12', 'rounded-full',
-        'bg-orange-600', 'text-white',
-        'flex', 'items-center', 'justify-center',
-        'shadow-lg', 'hover:bg-orange-700',
-        'focus:outline-none', 'focus:ring-2', 'focus:ring-orange-500',
-        'transition-all', 'duration-300'
+        'bg-orange-600', 'hover:bg-orange-700', 'active:bg-orange-800', 
+        'transition-colors', 'duration-200', 'rounded-full', 
+        'p-3', 'shadow-lg', 'hover:shadow-xl',
+        'focus:outline-none', 'focus:ring-2', 'focus:ring-orange-500', 
+        'focus:ring-offset-2', 'relative', 'z-10',
+        'cursor-pointer', 'transform', 'hover:scale-105', 'active:scale-95'
     );
     themeToggle.setAttribute('aria-label', 'Alternar tema claro/escuro');
     
@@ -43,7 +42,23 @@ function setupThemeToggle() {
         }
     });
     
-    document.body.appendChild(themeToggle);
+    // Inserir o botão no lugar do botão do carrinho no topo
+    const nav = document.querySelector('nav');
+    if (nav) {
+        nav.appendChild(themeToggle);
+    } else {
+        // Fallback: criar um nav e adicionar ao header
+        const header = document.querySelector('header');
+        if (header) {
+            const navElement = document.createElement('nav');
+            navElement.className = 'absolute top-0 left-0 right-0 flex justify-end p-4';
+            navElement.appendChild(themeToggle);
+            header.appendChild(navElement);
+        } else {
+            // Se não encontrar nem header, adiciona ao body
+            document.body.appendChild(themeToggle);
+        }
+    }
 }
 
 function announceThemeChange(message) {

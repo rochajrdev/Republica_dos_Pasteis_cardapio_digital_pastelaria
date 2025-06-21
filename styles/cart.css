@@ -1,0 +1,1091 @@
+/* Estilos específicos para o carrinho de compras */
+
+/* Layout do modal do carrinho para garantir visibilidade completa */
+.checkout-step-content {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(85vh - 160px); /* Altura aumentada para melhor visualização */
+    overflow: hidden;
+    position: relative;
+}
+
+.checkout-step-content.active {
+    display: flex;
+}
+
+/* Conteúdo com scrolling, botões fixos */
+.cart-scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 6px; /* Espaço para scrollbar */
+    margin-bottom: 8px;
+    max-height: calc(70vh - 200px); /* Ajustado para maior altura visível */
+    scrollbar-width: thin;
+    scrollbar-color: #f97316 #e5e7eb;
+}
+
+/* Ajuste específico para a etapa de pagamento */
+.step-3 .checkout-step-content {
+    padding-bottom: 5rem; /* Espaço extra para o botão de finalizar */
+}
+
+.step-3 .cart-scrollable-content {
+    max-height: calc(70vh - 240px); /* Ajuste para dar mais espaço ao botão */
+}
+
+/* Estilização para o resumo do total que aparece na primeira etapa */
+.cart-total-summary {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(229, 231, 235, 0.8);
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 12px;
+    z-index: 5;
+}
+
+.dark .cart-total-summary {
+    background: #1f2937;
+    border: 1px solid rgba(55, 65, 81, 0.8);
+}
+
+.cart-total-summary h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+}
+
+.dark .cart-total-summary h4 {
+    color: #f3f4f6;
+}
+
+.cart-total-details {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.cart-total-details .grand-total {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(229, 231, 235, 0.8);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.dark .cart-total-details .grand-total {
+    border-top: 1px solid rgba(55, 65, 81, 0.8);
+}
+
+.cart-total-details #cart-grand-total {
+    color: #ea580c;
+    font-weight: 700;
+}
+
+.dark .cart-total-details #cart-grand-total {
+    color: #fb923c;
+}
+
+/* Área de navegação fixa na parte inferior */
+.cart-nav-buttons {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding-top: 12px;
+    border-top: 1px solid rgba(229, 231, 235, 0.5);
+    margin-top: auto;
+    z-index: 5;
+}
+
+/* Para tema escuro */
+.dark .cart-nav-buttons {
+    background: #1f2937;
+    border-top: 1px solid rgba(55, 65, 81, 0.5);
+}
+
+/* Altura máxima para tabelas de resumo */
+.order-items-container {
+    max-height: 150px !important;
+    overflow-y: auto !important;
+}
+
+/* Animações para o carrinho */
+
+/* Animação para itens removidos do carrinho */
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+        max-height: 0;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* Animação para itens adicionados ao carrinho */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Animação para contador do carrinho */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Animação para feedback visual ao adicionar/remover itens */
+@keyframes highlight {
+    0% {
+        box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(249, 115, 22, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(249, 115, 22, 0);
+    }
+}
+
+.cart-item {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    animation: slideInLeft 0.5s forwards;
+    border: 1px solid var(--color-card-border, #e5e7eb);
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+}
+
+.cart-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+.cart-item-removing {
+    animation: slideOutRight 0.5s forwards;
+    pointer-events: none;
+}
+
+.cart-count-updating {
+    animation: pulse 0.5s ease;
+}
+
+/* Melhor visualização dos itens do carrinho */
+.cart-item-image {
+    width: 96px; /* 24 * 4 = 96px para w-24 */
+    height: 96px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    z-index: 2;
+}
+
+.cart-item:hover .cart-item-image {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.cart-image-container {
+    flex-shrink: 0;
+    margin-right: 10px;
+    position: relative;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+}
+
+.cart-image-container::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 8px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 80%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cart-item:hover .cart-image-container::after {
+    opacity: 0.5;
+}
+
+/* Separadores entre itens do carrinho */
+.cart-item:not(:last-child) {
+    border-bottom: 1px dashed var(--color-card-border);
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+/* Melhorias nos botões do carrinho */
+.cart-action-btn {
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.cart-action-btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-100%);
+    transition: transform 0.2s ease;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.cart-action-btn:active::after {
+    transform: translateY(0);
+}
+
+.remove-from-cart-btn {
+    transition: all 0.3s ease;
+}
+
+.remove-from-cart-btn:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.remove-from-cart-btn:focus {
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.5);
+    outline: none;
+}
+
+.remove-from-cart-btn:active {
+    transform: scale(0.95);
+}
+
+.cart-quantity-btn:hover {
+    background-color: var(--color-hover-bg, #e5e7eb);
+    color: var(--color-accent, #ea580c);
+}
+
+.clear-cart-btn {
+    transition: all 0.2s ease;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.clear-cart-btn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Indicador de carrinho vazio com mais estilo */
+.empty-cart-indicator {
+    text-align: center;
+    padding: 2rem;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.empty-cart-indicator i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+/* Controle de quantidades no carrinho */
+.cart-quantity-control {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.cart-quantity-display {
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Botão de remover todos os itens */
+.clear-cart-btn {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 0.75rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clear-cart-btn i {
+    margin-right: 4px;
+}
+
+/* Animação para o contador do carrinho */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.cart-count-updating {
+    animation: pulse 0.5s ease-in-out;
+}
+
+/* Estilo para feedback visual */
+.cart-feedback {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cart-feedback.show {
+    opacity: 1;
+}
+
+/* Estilo para o botão de finalização */
+.checkout-btn-wrapper {
+    position: relative;
+}
+
+.checkout-btn-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.9), transparent);
+    pointer-events: none;
+}
+
+/* Melhorias visuais e funcionais para o carrinho */
+
+/* Efeito de highlight para quantidade sendo alterada */
+.highlight {
+    animation: pulse 0.4s ease;
+}
+
+/* Estilizando o contador do carrinho */
+#cart-count {
+    transition: all 0.3s ease;
+}
+
+.cart-count-updating {
+    animation: pulse 0.5s ease;
+}
+
+/* Melhorando o visual geral do carrinho */
+#cart-modal .bg-white,
+#cart-modal .dark\:bg-gray-800 {
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    max-height: 90vh; /* Aumentar altura máxima */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Melhorando o scrollbar do carrinho */
+#cart-items::-webkit-scrollbar {
+    width: 6px;
+}
+
+#cart-items::-webkit-scrollbar-track {
+    background: var(--color-bg-subtle, #f3f4f6);
+}
+
+#cart-items::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary, #f97316);
+    border-radius: 20px;
+}
+
+/* Tooltip para botões */
+.cart-action-btn {
+    position: relative;
+}
+
+/* Efeito de hover para itens no carrinho */
+.cart-item {
+    border: 1px solid transparent;
+}
+
+.cart-item:hover {
+    border-color: var(--color-accent, #f97316);
+}
+
+/* Estilizando o botão de finalizar pedido */
+#checkout-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+#checkout-btn::after {
+    content: "";
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -100px;
+    transform: skewX(-20deg);
+    transition: all 0.6s ease;
+}
+
+#checkout-btn:hover::after {
+    left: 110%; /* Move o efeito de brilho para fora do botão */
+}
+
+/* Efeito de foco para inputs */
+.cart-input:focus {
+    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.4);
+    border-color: var(--color-accent, #f97316);
+}
+
+/* Animação para o modal do carrinho */
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#cart-modal .animate-slide-up {
+    animation: slide-up 0.3s ease forwards;
+}
+
+/* Melhor acessibilidade visual para o tema escuro */
+.dark .cart-item {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+}
+
+.dark .cart-quantity-control {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Melhor visualização para imagens em modo escuro */
+.dark .cart-item-image {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Ajustes para a visualização em dispositivos móveis */
+@media (max-width: 640px) {
+    .cart-item {
+        flex-direction: column;
+    }
+    
+    .cart-image-container {
+        margin-bottom: 1rem;
+        align-self: center;
+    }
+    
+    .cart-item-image {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Melhorias para dispositivos maiores */
+@media (min-width: 768px) {
+    .cart-item {
+        padding: 1.5rem;
+    }
+    
+    .cart-item-image {
+        width: 112px; /* 28 * 4 = 112px para w-28 */
+        height: 112px;
+    }
+}
+
+/* Estilos para o resumo do pedido */
+.order-summary {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.order-items-container {
+    scrollbar-width: thin;
+    scrollbar-color: #f97316 #e5e7eb;
+}
+
+.order-items-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.order-items-container::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 3px;
+}
+
+.order-items-container::-webkit-scrollbar-thumb {
+    background-color: #f97316;
+    border-radius: 3px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para o checkout em etapas */
+.checkout-steps {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+.checkout-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+}
+
+.step-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.checkout-step.active .step-circle {
+    background-color: #f97316;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
+}
+
+.checkout-step.completed .step-circle {
+    background-color: #22c55e;
+    color: white;
+}
+
+.checkout-step.completed .step-circle:before {
+    content: '✓';
+    font-size: 14px;
+}
+
+.checkout-step-line {
+    position: relative;
+    height: 3px;
+    background: #e5e7eb;
+    flex: 1;
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+.checkout-step-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background: #f97316;
+    transition: width 0.4s ease;
+}
+
+.checkout-step.completed + .checkout-step-line::after,
+.checkout-step.active + .checkout-step-line::after {
+    width: 100%;
+}
+
+.step-text {
+    font-size: 11px;
+    color: #6b7280;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.checkout-step.active .step-text {
+    color: #f97316;
+    font-weight: 600;
+}
+
+/* Conteúdo das etapas */
+.checkout-step-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: relative; /* Para animação */
+}
+
+.checkout-step-content.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.step-description {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: rgba(249, 115, 22, 0.05);
+    border-radius: 0.5rem;
+    border-left: 3px solid #f97316;
+}
+
+.step-description p {
+    color: #4b5563;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Estilo para opções de entrega */
+.delivery-option {
+    border: 1px solid #e5e7eb;
+}
+
+.delivery-option input[type="radio"]:checked + div {
+    color: #f97316;
+}
+
+.delivery-option:has(input[type="radio"]:checked) {
+    border-color: #f97316;
+    background-color: rgba(249, 115, 22, 0.05);
+    box-shadow: 0 1px 3px rgba(249, 115, 22, 0.1);
+}
+
+/* Resumo do pedido */
+.order-items-container {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.order-items-container table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.order-items-container th,
+.order-items-container td {
+    padding: 8px 12px;
+}
+
+.order-items-container th {
+    background-color: rgba(249, 115, 22, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.order-items-container tbody tr:hover {
+    background-color: rgba(249, 115, 22, 0.05);
+    cursor: pointer;
+}
+
+/* Transição entre etapas */
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeSlideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 480px) {
+    .checkout-step .step-text {
+        font-size: 10px;
+    }
+    
+    .step-circle {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+}
+
+/* Estilos para o botão flutuante do carrinho */
+#fixed-cart-btn {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+#fixed-cart-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+#fixed-cart-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Animação de bounce */
+@keyframes bounceOnce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.animate-bounce-once {
+    animation: bounceOnce 1s ease-in-out 3;
+}
+
+/* Media query para posição adequada em dispositivos móveis */
+@media (max-width: 640px) {
+    #fixed-cart-btn {
+        bottom: 16px;
+        right: 16px;
+        padding: 0.75rem;
+    }
+}
+
+/* Melhorias para o fluxo de checkout em etapas */
+
+/* Transição suave entre etapas */
+.checkout-step-content {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.checkout-step-content.hidden {
+    display: none;
+}
+
+.checkout-step-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Melhores estilos para indicadores de etapa */
+.checkout-steps {
+    margin-bottom: 1.5rem;
+}
+
+.checkout-step {
+    transition: all 0.3s ease;
+}
+
+.checkout-step .step-circle {
+    transition: all 0.3s ease;
+}
+
+.checkout-step.completed .step-circle {
+    background-color: #22c55e; /* Verde */
+}
+
+.checkout-step .step-text {
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.checkout-step.active .step-text {
+    font-weight: bold;
+    color: #f97316; /* Laranja */
+}
+
+/* Resumo do pedido mais destacado */
+#order-summary-container {
+    transition: all 0.3s ease;
+}
+
+.order-summary {
+    border-left: 3px solid #f97316;
+    box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.1), 0 2px 4px -1px rgba(249, 115, 22, 0.05);
+}
+
+/* Estilos para melhorar o dimensionamento do modal e adaptar a visualização de produtos */
+
+/* Layout para a área de conteúdo rolável */
+.cart-scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 6px; /* Espaço para scrollbar */
+    margin-bottom: 16px;
+    max-height: calc(65vh - 150px); /* Ajuste automático deixando espaço para header e footer */
+}
+
+/* Botões de navegação fixos no rodapé */
+.cart-nav-buttons {
+    padding-top: 12px;
+    border-top: 1px solid rgba(229, 231, 235, 0.5);
+    margin-top: auto;
+}
+
+/* Resumo fixo do total na primeira etapa */
+.cart-total-summary {
+    background-color: rgba(249, 115, 22, 0.05);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(249, 115, 22, 0.2);
+    animation: fadeIn 0.3s ease-in;
+    position: sticky;
+    bottom: 0;
+}
+
+.cart-total-summary h4 {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    color: #4b5563;
+}
+
+.cart-total-summary .cart-total-details {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    font-size: 0.95rem;
+}
+
+.cart-total-summary .grand-total {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(249, 115, 22, 0.3);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f97316;
+}
+
+/* Melhorias para o sistema de scroll */
+.cart-scrollable-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cart-scrollable-content::-webkit-scrollbar-track {
+    background: var(--color-bg-subtle, #f3f4f6);
+    border-radius: 10px;
+}
+
+.cart-scrollable-content::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary, #f97316);
+    border-radius: 10px;
+}
+
+/* Estilos específicos para a tabela detalhada na etapa de pagamento */
+#final-order-summary .order-items-container {
+    max-height: 150px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #f97316 #e5e7eb;
+}
+
+#final-order-summary .order-items-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+#final-order-summary .order-items-container::-webkit-scrollbar-track {
+    background: #e5e7eb;
+    border-radius: 2px;
+}
+
+#final-order-summary .order-items-container::-webkit-scrollbar-thumb {
+    background-color: #f97316;
+    border-radius: 2px;
+}
+
+#final-order-summary table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+#final-order-summary th,
+#final-order-summary td {
+    padding: 6px 8px;
+}
+
+#final-order-summary th {
+    font-size: 0.85rem;
+    background-color: rgba(249, 115, 22, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#final-order-summary tbody tr:hover {
+    background-color: rgba(249, 115, 22, 0.05);
+}
+
+/* Formulário para identificação do cliente na retirada */
+.pickup-form {
+    background-color: rgba(249, 115, 22, 0.05);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid rgba(249, 115, 22, 0.2);
+    animation: fadeIn 0.3s ease-in;
+}
+
+.pickup-form .form-group {
+    margin-bottom: 16px;
+}
+
+.pickup-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.pickup-form .required-mark {
+    color: #ef4444;
+    margin-left: 3px;
+}
+
+.pickup-form .form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.pickup-form .form-input:focus {
+    outline: none;
+    border-color: #f97316;
+    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+.pickup-form .form-input.error {
+    border-color: #ef4444;
+}
+
+.pickup-form .error-message {
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: none;
+}
+
+.pickup-form .error-message.visible {
+    display: block;
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+    #cart-modal .bg-white,
+    #cart-modal .dark\:bg-gray-800 {
+        max-width: 100%;
+        margin: 0 10px;
+        max-height: 85vh;
+    }
+    
+    .cart-scrollable-content {
+        max-height: calc(70vh - 170px);
+    }
+    
+    .checkout-step .step-text {
+        font-size: 9px;
+    }
+}
+
+/* Ajustes responsivos para o modal */
+@media (max-width: 640px) {
+    .checkout-step-content {
+        max-height: calc(85vh - 140px);
+    }
+    
+    .cart-scrollable-content {
+        max-height: calc(80vh - 200px);
+    }
+    
+    .cart-total-summary {
+        padding: 10px;
+        margin-bottom: 8px;
+    }
+    
+    .cart-total-details {
+        font-size: 0.85rem;
+    }
+}
+
+/* Animações para o carrinho */
