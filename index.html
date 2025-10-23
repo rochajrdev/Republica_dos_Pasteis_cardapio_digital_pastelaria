@@ -32,12 +32,7 @@
     <link rel="stylesheet" href="./styles/theme-button.css"/>
     <link rel="stylesheet" href="./styles/cart.css"/>
     <link rel="stylesheet" href="./styles/payment-summary.css"/>
-    <link rel="stylesheet" href="./styles/mobile-fixes.css"/><title>República dos Pastéis</title>      <!-- Scripts para o carrinho -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>    <script defer src="./cart-system.js"></script>
-    <script defer src="./cart-backup.js"></script>
-    <script defer src="./final-summary-fix.js"></script>
-    <script defer src="./payment-button-fix.js"></script>
-    <script defer src="./mobile-scroll-fix.js"></script>
+    <link rel="stylesheet" href="./styles/mobile-fixes.css"/><title>República dos Pastéis</title>
 </head>
 
 <body class="transition-colors duration-300">
@@ -113,7 +108,7 @@
                 aria-controls="section-especiais"
                 data-target="section-especiais"
             >
-                <i class="fas fa-star mr-2" aria-hidden="true"></i>Especiais
+                <i class="fas fa-star mr-2" aria-hidden="true"></i>Caprichado
             </button>
             
             <button 
@@ -529,262 +524,262 @@
                 </div>
             </div>
         </div>
-        <!--FIM Carne -->
-
-        <!-- Carne com queijo coalho  -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Carne -->        <!-- Carne com queijo coalho  -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de carne com queijo" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Carne com queijo</p>
+                <h3 class="font-bold text-lg">Carne com queijo</h3>
                 <p class="text-sm">Pastel recheado com carne moída e queijo coalho </p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 10.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 10 reais">R$ 10.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Carne c/queijo"
-                                data-price="10.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                                data-price="10.00"
+                                aria-label="Adicionar Carne com queijo coalho ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--FIM Carne c/queijo coalho  -->
-
-        <!-- Carne com catupiry  -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Carne c/queijo coalho  -->        <!-- Carne com catupiry  -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de carne com catupiry" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Carne com catupiry</p>
+                <h3 class="font-bold text-lg">Carne com catupiry</h3>
                 <p class="text-sm">Pastel recheado com carne moída e catupiry </p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 10.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 10 reais">R$ 10.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
-                                data-name="Carne c/queijo"
-                                data-price="10.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
+                                data-name="Carne com catupiry"
+                                data-price="10.00"
+                                aria-label="Adicionar Carne com catupiry ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
         <!--FIM Carne com catupiry  -->
-            
-        <!-- Frango -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+              <!-- Frango -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de frango" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Frango</p>
+                <h3 class="font-bold text-lg">Frango</h3>
                 <p class="text-sm">Pastel recheado com frango desfiado temperado</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 9.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 9 reais">R$ 9.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Frango"
-                                data-price="9.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                                data-price="9.00"
+                                aria-label="Adicionar Frango ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--FIM Frango -->
-
-        <!-- Frango c/queijo coalho-->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Frango -->        <!-- Frango c/queijo coalho-->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de frango com queijo coalho" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Frango com queijo coalho</p>
+                <h3 class="font-bold text-lg">Frango com queijo coalho</h3>
                 <p class="text-sm">Frango desfiado com queijo coalho</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 10.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 10 reais">R$ 10.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Frango c/queijo"
-                                data-price="10.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                                data-price="10.00"
+                                aria-label="Adicionar Frango com queijo coalho ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--FIM Frango c/queijo coalho-->
-
-        <!-- Frango com  catupiry -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Frango c/queijo coalho-->        <!-- Frango com  catupiry -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de frango com catupiry" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Frango com catupiry</p>
-                <p class="text-sm">Frango desfiado com  catupiry</p>
+                <h3 class="font-bold text-lg">Frango com catupiry</h3>
+                <p class="text-sm">Frango desfiado com catupiry</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
                     <p class="font-bold text-lg">R$ 10.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
-                                data-name="Frango c/queijo"
-                                data-price="10.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                        <button class="bg-orange-600 hover:bg-orange-700 px-5 py-2 rounded add-to-cart-btn"
+                                data-name="Frango c/catupiry"
+                                data-price="10.00"
+                                aria-label="Adicionar Frango com catupiry ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--FIM Frango com  catupiry -->
-
-        <!-- Frango aos três queijos -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Frango com  catupiry -->        <!-- Frango aos três queijos -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de frango aos três queijos" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Frango aos três queijos</p>
+                <h3 class="font-bold text-lg">Frango aos três queijos</h3>
                 <p class="text-sm">Frango com catupiry, coalho e cheddar</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 11.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 11 reais">R$ 11.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Frango aos três queijos"
-                                data-price="11.00">
+                                data-price="11.00"
+                                aria-label="Adicionar Frango aos três queijos ao carrinho">
                             <i class="fa fa-cart-plus text-lg text-white"></i>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--FIM Frango aos três queijos -->
-
-        <!-- Três queijos -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Frango aos três queijos -->        <!-- Três queijos -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel três queijos" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Três queijos</p>
+                <h3 class="font-bold text-lg">Três queijos</h3>
                 <p class="text-sm">Catupiry, coalho e cheddar</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 11.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 11 reais">R$ 11.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Três queijos"
-                                data-price="11.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                                data-price="11.00"
+                                aria-label="Adicionar Três queijos ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--FIM Três queijos -->
-
-        <!-- Pizza -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Três queijos -->        <!-- Pizza -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel de pizza" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Pizza</p>
+                <h3 class="font-bold text-lg">Pizza</h3>
                 <p class="text-sm">Molho de tomate, queijo, presunto e orégano</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 10.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 10 reais">R$ 10.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Pizza"
-                                data-price="10.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                                data-price="10.00"
+                                aria-label="Adicionar Pizza ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <!--FIM Pizza -->
-
-        <!-- Misto -->
-        <div class="flex gap-2">
-            <img src="./assets/pastel.jpg" alt="Pastel" class="w-28 h-28 rounded-md hover:scale-110 duration-300"/>
+        <!--FIM Pizza -->        <!-- Misto -->
+        <div class="flex gap-2 menu-item p-3 rounded-lg animate-fade-in">
+            <img src="./assets/pastel.jpg" alt="Pastel misto" class="w-28 h-28 rounded-md hover:scale-110 duration-300" loading="lazy"/>
             <div class="w-full">
-                <p class="font-bold">Misto</p>
+                <h3 class="font-bold text-lg">Misto</h3>
                 <p class="text-sm">Queijo coalho e presunto</p>
                 <div class="flex items-center gap-2 justify-between mt-3">
-                    <p class="font-bold text-lg">R$ 10.00</p>
+                    <p class="font-bold text-lg" aria-label="Preço: 10 reais">R$ 10.00</p>
                     <div class="flex items-center gap-2">
-                        <div class="flex items-center bg-gray-100 rounded">
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="decrease">
-                                <i class="fas fa-minus"></i>
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded" role="group" aria-label="Controle de quantidade">
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="decrease" aria-label="Diminuir quantidade">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
-                            <span class="quantity-display px-3">1</span>
-                            <button class="px-2 py-1 text-orange-600 quantity-btn" data-action="increase">
-                                <i class="fas fa-plus"></i>
+                            <span class="quantity-display px-3" aria-live="polite">1</span>
+                            <button class="px-2 py-1 text-orange-600 dark:text-orange-400 quantity-btn" data-action="increase" aria-label="Aumentar quantidade">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                        <button class="bg-orange-600 hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 px-5 py-2 rounded add-to-cart-btn"
                                 data-name="Misto"
-                                data-price="10.00">
-                            <i class="fa fa-cart-plus text-lg text-white"></i>
+                                data-price="10.00"
+                                aria-label="Adicionar Misto ao carrinho">
+                            <i class="fa fa-cart-plus text-lg text-white" aria-hidden="true"></i>
+                            <span class="sr-only">Adicionar ao carrinho</span>
                         </button>
                     </div>
                 </div>
@@ -921,9 +916,9 @@
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
-                        <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
-                                data-name="Calabresa com queijo coalho
-                                data-price="11.50">
+            <button class="bg-orange-600 px-5 py-2 rounded add-to-cart-btn"
+                data-name="Calabresa com queijo coalho"
+                data-price="11.50">
                             <i class="fa fa-cart-plus text-lg text-white"></i>
                         </button>
                     </div>
@@ -2295,11 +2290,19 @@
         </div>
         <!--FIM - Grid Bebidas-->
 
-    </div>    <!-- FIM CARDÁPIO --><!-- Removido botão duplicado do carrinho -->    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <!-- Sistema de carrinho moderno do cart-system.js já está ativo -->
-    <script src="theme.js"></script>
-    <script src="menu-fix.js"></script>
-    <script src="dark-mode-fix.js"></script>
+    </div>    <!-- FIM CARDÁPIO -->
+    <!-- Scripts unificados e ordenados -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script defer src="./menu-fix.js"></script>
+    <script defer src="./caprichado-clone.js"></script>
+    <script defer src="./cart-system.js"></script>
+    <script defer src="./final-summary-fix.js"></script>
+    <script defer src="./payment-button-fix.js"></script>
+    <script defer src="./mobile-scroll-fix.js"></script>
+    <script defer src="./dark-mode-fix.js"></script>
+    <script defer src="./theme.js"></script>
+    <script defer src="./scripts/section-scroll.js"></script>
+    <script defer src="./scripts/business-hours.js"></script>
 
     <!-- Script para navegação por tabs -->
     <script>
@@ -2329,7 +2332,6 @@
                     setTimeout(() => document.body.removeChild(announcement), 1000);
                 });
             });
-        });
-    </script>
+        });    </script>
 </body> 
 </html>

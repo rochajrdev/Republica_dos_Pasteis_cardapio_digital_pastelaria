@@ -589,50 +589,88 @@ const CartUI = {
    */
   processOrder() {
     try {
-      // Aqui seria a integração com um backend para processar o pedido
-      console.log('🛒 CartUI: Processando pedido', {
-        items: CartState.items,
-        total: CartState.total,
-        deliveryMethod: CartState.deliveryMethod,
-        address: CartState.address,
-        paymentMethod: CartState.paymentMethod
-      });
-      
-      // Exibir mensagem de sucesso
-      Toastify({
-        text: "Pedido realizado com sucesso! Em breve você receberá uma confirmação.",
-        duration: 5000,
-        gravity: "top",
-        position: "center",
-        style: {
-          background: "#22c55e",
+      // Monta mensagem detalhada para WhatsApp
+      const itemsText = CartState.items.map(item => `• ${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}`).join("\n");
+      const totalText = `R$ ${CartState.total.toFixed(2)}`;
+
+      // Método de recebimento
+      const isDelivery = CartState.deliveryMethod === 'delivery';
+      const deliveryHeader = isDelivery ? '� ENTREGA EM CASA' : '🏪 RETIRADA NA LOJA';
+
+      // Endereço (para entrega) ou identificação (para retirada)
+      let extraInfo = '';
+      if (isDelivery) {
+        const address = (CartState.address || '').trim();
+        if (address) {
+          extraInfo += `\n\n🏠 Endereço:\n${address}`;
         }
+      } else {
+        // Tenta coletar dados da etapa de retirada, se existirem
+        const pickupName = document.getElementById('pickup-name')?.value?.trim();
+        const pickupPhone = document.getElementById('pickup-phone')?.value?.trim();
+        const pickupNotes = document.getElementById('pickup-notes')?.value?.trim();
+        const parts = [];
+        if (pickupName) parts.push(`Nome: ${pickupName}`);
+        if (pickupPhone) parts.push(`Telefone: ${pickupPhone}`);
+        if (pickupNotes) parts.push(`Observações: ${pickupNotes}`);
+        if (parts.length) extraInfo += `\n\n👤 Identificação (retirada):\n${parts.join('\n')}`;
+      }
+
+      // Mapeia forma de pagamento
+      const paymentMap = { money: 'Dinheiro', card: 'Cartão (na entrega)', pix: 'PIX' };
+      const paymentText = paymentMap[CartState.paymentMethod] || CartState.paymentMethod || 'Não informado';
+
+      // Mensagem final
+      const message = [
+        '🛒 NOVO PEDIDO',
+        '',
+        deliveryHeader,
+        '',
+        '📋 Itens:',
+        itemsText || '(sem itens)',
+        '',
+        `💰 Total: ${totalText}`,
+        extraInfo,
+        '',
+        `💳 Pagamento: ${paymentText}`
+      ].join('\n');
+
+      // Obtém telefone a partir do link tel: do header, com fallback
+      let phone = '5579981575934';
+      try {
+        const telAnchor = document.querySelector('a[href^="tel:"]');
+        if (telAnchor) {
+          const digits = (telAnchor.getAttribute('href') || '').replace(/\D/g, '');
+          if (digits) phone = digits.startsWith('55') ? digits : `55${digits}`;
+        }
+      } catch(_) {}
+
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+      // Feedback e redirecionamento
+      Toastify({
+        text: 'Redirecionando para o WhatsApp…',
+        duration: 1500,
+        gravity: 'top',
+        position: 'center',
+        style: { background: '#22c55e' }
       }).showToast();
-      
-      // Limpar o carrinho após 1.5s (para dar tempo do usuário ver a mensagem)
+
+      // Abre WhatsApp em nova aba
+      window.open(url, '_blank');
+
+      // Limpa e fecha local após pequeno atraso
       setTimeout(() => {
         CartState.resetAfterOrder();
         this.updateCartCounter();
         this.closeCart();
-        
-        // Anunciar para leitores de tela
-        this.announceMessage('Pedido finalizado com sucesso');
-      }, 1500);
-      
+        this.announceMessage('Pedido enviado para WhatsApp');
+      }, 800);
+
       return true;
     } catch (error) {
       console.error('🛒 CartUI: Erro ao processar pedido', error);
-      
-      Toastify({
-        text: "Erro ao finalizar pedido. Por favor, tente novamente.",
-        duration: 5000,
-        gravity: "top",
-        position: "center",
-        style: {
-          background: "#ef4444",
-        }
-      }).showToast();
-      
+      Toastify({ text: 'Erro ao finalizar pedido. Tente novamente.', duration: 4000, gravity: 'top', position: 'center', style: { background: '#ef4444' } }).showToast();
       return false;
     }
   },
@@ -1503,7 +1541,7 @@ function addToCart(item) {
       text: `${item.name} adicionado ao carrinho!`,
       duration: 3000,
       gravity: "bottom",
-      position: "right",
+      position: "left",
       style: {
         background: "#f97316",
       }
