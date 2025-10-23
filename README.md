@@ -1,78 +1,126 @@
-# Sistema de Carrinho de Compras - República dos Pastéis
 
-Este documento descreve a arquitetura e funcionamento do sistema de carrinho de compras implementado para o site "República dos Pastéis".
+# República dos Pastéis — Cardápio digital
 
-## Arquitetura
+<!-- Badges (substitua os links / imagens pelos seus quando disponíveis) -->
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![Technologies](https://img.shields.io/badge/tech-HTML%20%7C%20CSS%20%7C%20JS-lightgrey.svg)](#) [![Figma](https://img.shields.io/badge/design-Figma-purple.svg)](#) [![Demo](https://img.shields.io/badge/demo-AO_VIVO-brightgreen)](https://republica-dos-pasteis.vercel.app/)  
 
-O sistema foi implementado com uma arquitetura modular, dividida em:
+🔗 Deploy: https://republica-dos-pasteis.vercel.app/  
 
-1. **CartState** - Gerenciador de estado centralizado
-   - Armazena itens, total, etapa atual, método de entrega, etc.
-   - Oferece métodos para manipular o estado (adicionar/remover itens, navegar entre etapas)
-   - Persiste dados no localStorage
+Bem-vindo(a)! Este repositório contém o site da "República dos Pastéis" com a implementação do sistema de carrinho de compras, estilos e scripts auxiliares.
 
-2. **CartUI** - Interface do usuário
-   - Gerencia a interface visual do carrinho
-   - Lida com eventos de usuário
-   - Renderiza itens e resumos
-   - Gerencia navegação entre etapas do checkout
+## Sobre o projeto
 
-## Fluxo do Checkout
+O projeto é um site front-end para um estabelecimento de alimentação (pastelaria). Contém páginas, componentes e um sistema de carrinho para adicionar produtos, calcular totais e seguir o fluxo de checkout (resumo → método de recebimento → endereço → pagamento).
 
-O processo de checkout segue estas etapas:
+Este README descreve as funcionalidades principais, como executar localmente e onde estão os arquivos mais relevantes.
 
-1. **Resumo do Pedido**
-   - Lista dos itens adicionados
-   - Controle de quantidade
-   - Remoção de itens
-   - Total do pedido
+## Tecnologias
 
-2. **Método de Recebimento**
-   - Opção de entrega em casa
-   - Opção de retirada na loja
+- HTML
+- CSS (inclui arquivos gerados por Tailwind)
+- JavaScript (vanilla)
+- Tailwind CSS (configuração: `tailwind.config.js`)
+- Git & GitHub
+- Figma (opcional, para visualizar o layout)
 
-3. **Endereço de Entrega** (apenas se método = entrega)
-   - Campo para informar endereço completo
-   - Validação do campo
+## Recursos principais
 
-4. **Forma de Pagamento**
-   - Seleção do método de pagamento
-   - Resumo final do pedido
-   - Botão de finalização
+- Sistema de carrinho completo (adicionar, atualizar quantidade, remover)
+- Persistência local do carrinho (`localStorage`) com fallback
+- Estilos responsivos e suporte a tema claro/escuro
+- Scripts de recuperação/backup para garantir disponibilidade em falhas
 
-## Sistema à Prova de Falhas
+## Estrutura do projeto (resumo)
 
-O sistema implementa diversos mecanismos para garantir funcionamento robusto:
+- `index.html` — página principal
+- `script.js` — script principail do site
+- `cart-system.js` — lógica principal do carrinho
+- `cart-backup.js`, `cart-fix.js`, `cart-system.js` — utilitários relacionados ao carrinho
+- `styles/` — arquivos CSS (ex.: `style.css`, `cart.css`, `output.css`)
+- `assets/` — imagens e recursos estáticos
+- `legacy/` — código legado / versões antigas
+- `tailwind.config.js` — configuração do Tailwind
 
-- **Botão Garantido**: Um botão de carrinho é injetado via JavaScript caso o botão original falhe
-- **Script de Backup**: O arquivo `cart-backup.js` ativa um modo de emergência caso o sistema principal falhe
-- **Recuperação de Estado**: O sistema tenta recuperar dados mesmo quando há problemas com o localStorage
-- **Fallbacks Múltiplos**: Várias rotas para garantir funcionalidade do carrinho em diferentes cenários
+> Observação: essa estrutura foi resumida; examine os arquivos no diretório para detalhes específicos.
 
-## Persistência
+## Como executar localmente
 
-- O estado do carrinho é salvo no localStorage como `cartState`
-- Compatibilidade com formato legado (`cart`) para migração suave
+Opções simples para visualizar o site:
 
-## Acessibilidade
+- Abrir `index.html` diretamente no navegador (duplo clique).
+- Usar uma pequena servidor estático (recomendado para evitar problemas com requisições locais):
 
-O sistema implementa recursos de acessibilidade como:
+PowerShell (Python 3 instalado):
 
-- Anúncios ARIA para leitores de tela
-- Foco gerenciado para navegação por teclado
-- Atalhos de teclado (Alt+C para abrir o carrinho)
-- Atributos ARIA para estados e controles
+```powershell
+python -m http.server 8000
 
-## Arquivos
+# então abra http://localhost:8000 no navegador
+```
 
-- **cart-system.js**: Implementação principal do sistema de carrinho
-- **cart-backup.js**: Sistema de emergência em caso de falhas
-- **styles/cart.css**: Estilos específicos para o carrinho
+Ou use a extensão Live Server do VS Code para servir a pasta do projeto.
 
-## Manutenção
+## Funcionamento básico do carrinho (resumo)
 
-Para adicionar novos recursos ou modificar o comportamento do carrinho:
+- Adição: clicar em "Adicionar" atualiza o estado local e persiste no `localStorage`.
+- Atualização: é possível alterar quantidade; o total é recalculado.
+- Remoção: remover item atualiza subtotal e armazenamento.
+- Cálculo: subtotal → aplicar descontos (se houver) → calcular impostos/frete → total.
+- Sincronização: comportamento otimista no cliente; scripts validam e reconcilam com fontes de verdade (quando aplicável).
 
-1. As mudanças devem ser feitas no arquivo `cart-system.js`
-2. Mantenha a arquitetura modular separando estado (CartState) e UI (CartUI)
-3. Sempre teste em diferentes navegadores e dispositivos após alterações
+Arquivos chave:
+- `cart-system.js` — implementa o estado e as operações do carrinho
+- `cart-backup.js` — fallback para cenários de erro
+- `styles/cart.css` — estilos do carrinho
+
+## Comportamento do botão, horário de funcionamento e tema
+
+O site implementa regras de negócio que afetam o comportamento do botão de pedido e o fluxo de checkout:
+
+- Estado do botão (aberto / fechado): o botão de pedido muda de cor para indicar se a loja está aberta ou fechada — por exemplo, verde quando aberta e cinza/vermelho quando fechada. Isso fornece feedback visual imediato ao usuário.
+- Bloqueio de pedidos fora do horário: quando o estabelecimento está fechado, o sistema não aceita novos pedidos. O botão fica desabilitado e o usuário recebe uma mensagem clara explicando que o estabelecimento está fechado e informando o próximo horário de abertura.
+- Configuração de horário: os horários de funcionamento e regras estão centralizados no script `scripts/business-hours.js` (verifique esse arquivo para ajustar o horário, feriados ou regras especiais).
+- Tema claro / escuro: o site suporta tema claro e escuro. O modo pode ser alternado pelo usuário e o estado do tema é preservado (ex.: `localStorage`) — confira `theme.js` e `styles/` para os arquivos relacionados.
+
+Implementação e UX recomendadas:
+
+- Use cores contrastantes claras para o estado "aberto" (ex.: verde) e neutras/indicativas para "fechado" (ex.: cinza abafado + tooltip explicativo).
+- Ao tentar submeter um pedido enquanto fechado, mostre um modal ou toast com a mensagem e um botão para salvar o carrinho para envio posterior.
+- Ofereça uma indicação de "Próxima abertura" (por exemplo: "Abrimos às 10:00") quando a loja estiver fechada.
+
+
+## Layout
+
+O layout visual foi feito e customizado para este projeto. 
+
+## Screenshots (Desktop)
+
+![Homepage exemplo](./assets/screenshots/desktop/desktop-claro.png)
+![Homepage exemplo](./assets/screenshots/desktop/homepage-escuro.png)
+![Homepage exemplo](./assets/screenshots/desktop/resumo-carrinho.png)
+![Homepage exemplo](./assets/screenshots/desktop/recebimento-carrinho.png)
+![Homepage exemplo](./assets/screenshots/desktop/pagamento%20carrinho.png)
+
+## Screenshots (Mobile)
+
+![Homepage exemplo](./assets/screenshots/mobile/mobile.png)
+![Homepage exemplo](./assets/screenshots/mobile/carrinho.png)
+
+## Licença
+
+- Licença: MIT — consulte o arquivo `LICENSE` para os termos.
+
+## Como contribuir
+
+1. Faça um fork deste repositório
+2. Crie um branch com a sua feature (`git checkout -b feature/nome-da-feature`)
+3. Faça commits pequenos e claros
+4. Abra um pull request descrevendo as mudanças
+
+## Contato / Créditos
+
+- Autor: rochajrdev
+- Repositório: Rep-blica-dos-Pasteis
+
+---
+
